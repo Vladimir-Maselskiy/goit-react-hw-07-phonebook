@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/actions';
 import { Formik, Field } from 'formik';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
 import { Box, ErrorStyled, InputForm } from './Form.styled';
+import { addContactOperation } from 'redux/operations';
 
 const nameInputId = nanoid();
 const numberInputId = nanoid();
-const initialValues = { name: '', number: '' };
+const initialValues = { name: '', phone: '' };
 
 let schema = yup.object().shape({
   name: yup
@@ -17,7 +17,7 @@ let schema = yup.object().shape({
       "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
     )
     .required(),
-  number: yup
+  phone: yup
     .string()
     .matches(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
@@ -48,7 +48,7 @@ export default function Form() {
       return;
     }
 
-    dispatch(addContact(values));
+    dispatch(addContactOperation(values));
     // onSubmit(values);
     actions.resetForm();
   }
@@ -72,7 +72,7 @@ export default function Form() {
           </label>
           <label htmlFor={numberInputId}>
             Number
-            <Field id={numberInputId} type="tel" name="number" />
+            <Field id={numberInputId} type="tel" name="phone" />
             <ErrorStyled name="number" component="div" />
           </label>
           <button type="submit">Add Contact</button>

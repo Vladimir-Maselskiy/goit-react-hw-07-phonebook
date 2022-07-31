@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/actions';
+import { fetchContactOperation } from 'redux/operations';
 import { ListItem } from './ListItems.styled';
 
 function getVisibleContacts(contacts, filter) {
@@ -17,13 +19,17 @@ export default function ListItems() {
   );
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchContactOperation());
+  }, [dispatch]);
+
   return (
     <>
       {contacts.map(contact => {
-        const { name, number, id } = contact;
+        const { name, phone, id } = contact;
         return (
           <ListItem key={id}>
-            {name} {number}
+            {name} {phone}
             <button id={id} onClick={() => dispatch(deleteContact(id))}>
               Delete
             </button>
