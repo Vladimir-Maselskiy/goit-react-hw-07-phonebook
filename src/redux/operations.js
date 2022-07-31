@@ -3,6 +3,9 @@ import {
   addContactError,
   addContactRequest,
   addContactSuccess,
+  deleteContactError,
+  deleteContactRequest,
+  deleteContactSuccess,
   fetchContactError,
   fetchContactRequest,
   fetchContactSuccess,
@@ -30,3 +33,11 @@ export const addContactOperation =
       .then(({ data }) => dispatch(addContactSuccess(data)))
       .catch(err => dispatch(addContactError(err)));
   };
+
+export const deleteContactOperation = id => dispatch => {
+  dispatch(deleteContactRequest());
+  axios
+    .delete(`/contacts/${id}`)
+    .then(({ data }) => dispatch(deleteContactSuccess(data.id)))
+    .catch(err => dispatch(deleteContactError(err)));
+};
